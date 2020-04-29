@@ -1,0 +1,50 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+		    "path" : "pages/home/home",
+		    "style" : {}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		}    
+        ,{
+            "path" : "pages/wo/wo",
+            "style" : {}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar":{
+		"list":[
+			{
+			"pagePath": "pages/home/home",
+			"selectedColor":"#007AFF",
+			"text":"首页",
+			"iconPath":"static/icon_56ubw6foco5/zhuye.png",
+			"selectedIconPath":"static/icon_2oeptpwi45f/zhuye.png"	
+			},
+			{
+			"pagePath": "pages/index/index",
+			"selectedColor":"#007AFF",
+			"text":"订单",
+			"iconPath":"static/icon_2oeptpwi45f/ziyuan_1.png",
+			"selectedIconPath":"static/icon_2oeptpwi45f/ziyuan_1.png"	
+			},
+			{
+			"pagePath": "pages/wo/wo",
+			"selectedColor":"#007AFF",
+			"text":"我的",
+			"iconPath":"static/icon_56ubw6foco5/ziyuan.png",
+			"selectedIconPath":"static/icon_2oeptpwi45f/ziyuan.png"	
+			}
+			
+		]
+	}
+}
