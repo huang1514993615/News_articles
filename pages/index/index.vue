@@ -1,41 +1,49 @@
 <template>
 	<view class="content">
-		<view class="title">uniCloud 基础示例</view>
-		<view class="tips">
-			<view>1.在cloudfunctions目录右键创建并关联服务空间</view>
-			<view>2.在cloudfunctions目录内db_init.json上右键初始化云数据库</view>
-			<view>3.在cloudfunctions目录右键选择“上传所有云函数”</view>
-			<view>开始愉快的体验uniCloud吧！</view>
-		</view>
-		<view class="btn-list">
-			<button type="primary" @click="add">新增一条数据</button>
-			<button type="primary" @click="remove">删除一条数据</button>
-			<button type="primary" @click="update">修改数据</button>
-			<button type="primary" @click="get">查询前10条数据</button>
-			<button type="primary" @click="useCommon">使用公用模块</button>
-			<button type="primary" @click="upload">上传文件</button>
-		</view>
+	<view class="PageHeader">
+		<text :class="{a:a}" @click="wz" type="default">文章</text>
+		<text :class="{b:b}" @click="zz" type="default">作者</text>
+	</view>
+	<xx v-show="a"></xx>
+	<zz v-show="b"></zz>
 	</view>
 </template>
-
+			
 <script>
+	import xx from '../../components/xx/xx.vue'
+	import zz from '../../components/zz/zz.vue'
 	export default {
+		components:{
+			xx:xx,
+			zz:zz
+		},
 		data() {
-			return {}
+			return {
+				a:true,
+				b:false
+			}
 		},
 		methods: {
+			wz(){
+				this.a=true;
+				this.b=false;
+			},
+			zz(){
+				this.a=false;
+				this.b=true;
+			},
 			add() {
 				uni.showLoading({
 					title: '处理中...'
 				})
 				uniCloud.callFunction({
-					name: 'add',
-					data: {
+					name: 'add',//云函数名字
+					data: {//请求参数
 						name: 'DCloud',
 						subType: 'uniCloud',
 						createTime: Date.now()
 					}
-				}).then((res) => {
+				}).then((res) => {//相应处理
 					uni.hideLoading()
 					uni.showModal({
 						content: `成功添加一条数据，文档id为：${res.result.id}`,
@@ -156,8 +164,9 @@
 							ext = res.tempFilePaths[0].split('.').pop()
 							// #endif
 							const options = {
-								filePath: path,
-								cloudPath: Date.now() + '.' + ext
+								filePath: path,//配置上传路径
+								cloudPath: Date.now() + '.' + ext,//在云存储中文件名字
+								
 							}
 							resolve(options)
 						},
@@ -166,6 +175,11 @@
 						}
 					})
 				}).then((options) => {
+					// 云存储
+					// 每次上传和下载dous 异步的
+					// 每次只上传一个文件
+					// 云存储中相同文件名字会覆盖
+					// 上传云存储成功后返回fileID 标识该文件
 					uni.showLoading({
 						title: '文件上传中...'
 					})
@@ -175,7 +189,7 @@
 							console.log(e)
 						}
 					})
-				}).then(res => {
+				}).then(res => {//云存储上传成功
 					uni.hideLoading()
 					console.log(res);
 					uni.showModal({
@@ -198,32 +212,42 @@
 </script>
 
 <style>
-	.content {
-		padding-bottom: 30px;
-	}
-
-	.title {
-		font-weight: bold;
-		text-align: center;
-		padding: 20px 0px;
-		font-size: 20px;
-	}
-
-	.tips {
-		color: #999999;
-		font-size: 14px;
-		padding: 20px 30px;
-	}
-
-	.btn-list {
-		padding: 0px 30px;
-	}
-
-	.btn-list button {
-		margin-bottom: 20px;
-	}
-
-	.upload-preview {
-		width: 100%;
-	}
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+.content{
+	width: 90%;
+	margin: 0 auto;
+	
+}
+.PageHeader{
+	width: 100%;
+	margin: 0 auto;
+	height: 100rpx;
+	
+}
+.PageHeader text{
+	display: inline-block;
+	width: 330rpx;
+	height: 70rpx;
+	border: 2rpx solid #DD524D;
+	font-size: 30rpx;
+	line-height: 70rpx;
+	vertical-align: middle;
+	text-align: center;
+}
+.PageHeader text:nth-child(1){
+	border-radius: 10rpx 0 0 10rpx;
+}
+.PageHeader text:nth-child(2){
+	border-radius:0 10rpx 10rpx 0;
+}
+.a{
+	color: #DD524D;
+}
+.b{
+	color: #DD524D;
+}
 </style>
