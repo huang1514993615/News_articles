@@ -13,7 +13,11 @@
         ,{
             "path" : "pages/wo/wo",
             "style" : {}
-        }
+        },
+		{
+		    "path" : "pages/search/search",
+		    "style" : {}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

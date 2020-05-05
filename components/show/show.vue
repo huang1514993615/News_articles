@@ -1,6 +1,10 @@
 <template>
-	<view class="boxs">
-		<view class="title">{{show.title}}</view><view class="img"><image src="../../static/icon/xin_bg.png" mode=""></image></view>
+	<view>
+	<view @click="update" class="boxs" v-if="show.personal_img.length > 2 ">
+		<view class="title">{{show.title}}</view><view class="img">
+		<image @click="cli" v-if="img==false" src="../../static/icon/xin_bg.png" mode=""></image>
+		<image @click="cli" v-else-if="img==true" src="../../static/icon/xin.png" mode=""></image>
+		</view>
 		<view class="images">
 			<block v-for="(item,index) in show.personal_img" :key="index">
 				<image :src="item" mode=""></image>
@@ -11,18 +15,56 @@
 			<text>{{show.view_count}}</text>
 		</view>
 	</view>
+	
+	
+	
+	
+		<view class="boxs" v-else @click="update">
+			<view class="image">
+				<image :src="show.personal_img[0]" mode=""></image>
+			</view>
+			<view class=" contents">
+			<view class="title">{{show.title}}</view><view class="img">
+			<image @click="cli" v-if="img==false" src="../../static/icon/xin_bg.png" mode=""></image>
+			<image @click="cli" v-else-if="img==true" src="../../static/icon/xin.png" mode=""></image>
+			</view>
+			<view class="label labels">
+				<view class="label-one">前端开发</view>
+				<text>{{show.view_count}}</text>
+			</view>
+			</view>
+			
+		</view>
+	</view>	
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
-				
+				img:false
 			};
 		},
 		props:{
 			show:{
 				type:Object
+			}
+		},
+		methods:{
+			cli(){
+				this.img=!this.img
+			},
+			update() {
+				uniCloud.callFunction({
+					name:'gengxin',
+					data:{
+						_id:this.show._id,
+						view_count:this.show.view_count
+					}
+				}).then((res)=>{
+					console.log(res)
+				});
+			
 			}
 		}
 	}
@@ -81,6 +123,9 @@
 	
 	
 }
+.labels{
+	margin-top: 50rpx;
+}
 .label-one{
 	display: inline-block;
 	border: 1px solid red;
@@ -98,5 +143,20 @@
 	
 	font-size: 28rpx;
 	color: #ccc;
+}
+.image{
+	width:28%;
+	height: 180rpx;
+	display: inline-block;
+	vertical-align: top;
+}
+.image>image{
+	width: 100%;
+	height: 100%;
+}
+.contents{
+	width:70%;
+	display: inline-block;
+	vertical-align: top;
 }
 </style>
