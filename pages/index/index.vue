@@ -4,7 +4,10 @@
 		<text :class="{a:a}" @click="wz" type="default">文章</text>
 		<text :class="{b:b}" @click="zz" type="default">作者</text>
 	</view>
-	<xx v-show="a"></xx>
+	<block v-for="(item,index) in content" :key="index">
+		<xx v-show="a" :value="item"></xx>
+	</block>
+	
 	<zz v-show="b"></zz>
 	</view>
 </template>
@@ -20,8 +23,25 @@
 		data() {
 			return {
 				a:true,
-				b:false
+				b:false,
+				content:[],
+				data:[]
 			}
+		},
+		onLoad() {
+			uniCloud.callFunction({
+								name: 'get'
+							}).then((res) => {
+								// console.log(res.result.data,'===')
+								this.content = res.result.data
+								
+							}).catch((err) => {
+				
+								console.error(err)
+							})
+				
+							console.log('执行')
+			
 		},
 		methods: {
 			wz(){
@@ -60,9 +80,6 @@
 				})
 			},
 			remove() {
-				uni.showLoading({
-					title: '处理中...'
-				})
 				uniCloud.callFunction({
 					name: 'remove'
 				}).then((res) => {
@@ -71,7 +88,7 @@
 						content: res.result.msg,
 						showCancel: false
 					})
-					console.log(res)
+				
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
